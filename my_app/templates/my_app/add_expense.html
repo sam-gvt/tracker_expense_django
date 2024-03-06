@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+{% comment %} <h1 class="text-5xl font-extrabold text-black text-center mt-10 mb-10">Add Expense</h1> {% endcomment %}
+
+<div class="flex justify-center">
+    <section class="bg-white bg-opacity-25">
+        <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16">
+            <h2 class="mb-4 text-xl font-bold text-black">Add expense</h2>
+            <form method="POST" id="expense_form">
+                {% csrf_token %}
+                <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
+                    <div class="sm:col-span-2">
+                        <label for="name" class="block mb-2 text-sm font-medium text-black">Product Name</label>
+                        {{expense_form.name}}
+                    </div>
+              
+                    <div class="w-full">
+                        <label for="price" class="block mb-2 text-sm font-medium text-black">Price</label>
+                        {{expense_form.amount}}                    </div>
+                    <div class="w-full">
+                        <label for="date" class="block mb-2 text-sm font-medium text-black">Date</label>
+                        {{expense_form.date}}                    </div>
+                    <div>
+                        <label for="category" class="block mb-2 text-sm font-medium text-black">Category</label>
+                        {{expense_form.category}}  
+                    </div>
+                    <div class="relative flex justify-end items-center">
+                        <button name="submit_add_expense" type="submit" class="absolute bottom-0 p-3 text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm  text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" >
+                            Add product
+                        </button>
+                    </div>
+          
+                </div>
+        
+                
+            </form>
+
+            <button id="add_category" class="text-sm hover:underline">New category to add ?</button>
+        
+            <form id="category_form" class='hidden' method="POST">
+                {% csrf_token %}
+                <div>
+                    {{category_form.name}}
+                    <button name="submit_add_category" class="mt-1 text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-3 py-2 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" 
+                    type='submit'>Submit</button>
+                </div>
+            </form>
+
+        </div>
+      </section>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const add_category_button = document.getElementById('add_category');
+        add_category_button.addEventListener('click', () => {
+            var categoryForm = document.getElementById('category_form');
+            categoryForm.classList.remove('hidden');
+        })
+
+    })
+</script>
+{% endblock content %}

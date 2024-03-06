@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<div class="mx-[10%]">
+    <div class="text-center">
+        <h1 class="py-8 lg:py-16 mb-4 text-xl font-bold text-black">Dashboard</h1>
+    </div>
+   
+    <div class='flex'>
+        <div class="w-1/2 shadow-lg m-10 rounded-lg">
+            <h1 class="m-10">Expense spread across categories</h1>
+            <canvas id="myChart"></canvas>
+        </div>
+        <div class="w-1/2 shadow-lg m-10 rounded-lg">
+            <h1 class="m-10">Daily Expense Sum</h1>
+            <canvas id="myChartDaily"></canvas>
+        </div>
+    </div>
+    
+    <div class="shadow-lg m-10 rounded-lg">
+        <div class="table table-fixed w-full text-center border-b-4 py-5">
+            <span class="table-cell font-bold ml-10 text-gray-500">Name</span>
+            <span class="table-cell font-bold ml-10 text-gray-500">Amount</span>
+            <span class="table-cell font-bold ml-10 text-gray-500">Category</span>
+            <span class="table-cell font-bold ml-10 text-gray-500">Date</span>
+            <span class="table-cell font-bold ml-10 text-gray-500">Edit</span>
+            <span class="table-cell font-bold ml-10 text-gray-500">Delete</span>
+        </div>
+        <div class="">
+            {% for expense in expenses %}
+                <div class="table table-fixed w-full text-center">
+                    <span class="table-cell font-bold py-2">{{ expense.name }}</span>
+                    <span class="table-cell font-bold">{{ expense.amount }}</span>
+                    <span class="table-cell font-bold">{{ expense.category }}</span>
+                    <span class="table-cell font-bold">{{ expense.date }}</span>
+                    <span class="table-cell font-bold"><a href="">Edit</a></span>
+                    <span class="table-cell font-bold"><a href="">Delete</a></span>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="px-40 py-5">
+            <span class="font-bold text-red-500"> Total Expense : {{total_expenses.amount__sum}}$</span>
+        </div>
+    </div>
+
+    <div class="flex">
+        {% if monthly_sum.amount__sum != None %}
+        <div class="w-1/2 shadow-lg ml-10 rounded-lg">
+            <h1 class="font-bold ml-10 text-gray-500">LAST MONTH</h1>
+            <h1 class="ml-10 my-5 text-2xl text-red-500 font-bold">{{monthly_sum.amount__sum}}$</h1>
+        </div>
+        {% endif %}
+
+        {% if weekly_sum.amount__sum != None%}
+        <div class="w-1/2 shadow-lg ml-10 rounded-lg">
+            <h1 class="font-bold ml-10 text-gray-500">LAST WEEK</h1>
+            <h1 class="ml-10 my-5 text-2xl text-red-500 font-bold">{{weekly_sum.amount__sum}}$</h1>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <div class="flex">
+        <div class="w-1/2 shadow-lg m-10 rounded-lg">
+            <div class="flex flex-wrap space-x-40 font-bold px-20 py-5">
+                <span class="font-bold text-gray-500"> Past 30 days sum expenses</span>
+            </div>
+            </hr>
+            <div id="expense_table">
+                {% for daily_sum in daily_sums%}
+                    <div class="flex flex-wrap px-20 py-5">
+                        <span class="underline font-bold">
+                            {{daily_sum.date}}
+                        </span>
+                    </div>
+                    <div class="flex flex-wrap px-20 py-5">
+                        <span class="text-red-500">
+                            {{daily_sum.sum}}$
+                        </span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="w-1/2 shadow-lg m-10 rounded-lg">
+            <div class="flex flex-wrap space-x-40 font-bold px-20 py-5">
+                <span class="font-bold text-gray-500"> Categorical expenses</span>
+            </div>
+            </hr>
+            <div id="categorical-table">
+                {% for categorical_sum in categorical_sums%}
+                    <div class="flex flex-wrap px-20 py-5">
+                        <span class="underline font-bold">
+                            {{categorical_sum.category__name}}
+                        </span>
+                    </div>
+                    <div class="flex flex-wrap px-20 py-5">
+                        <span class="text-red-500">
+                            {{categorical_sum.sum}}$
+                        </span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div> 
+    
+    
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+
+    const cats = []
+    const cats_sums = []
+
+    const categorical_table = document.getElementById('categorical-table').getElementsByTagName('div')
+
+    for(i=0; i<categorical_table.length;i++){
+        if (i%2 == 1){
+            cats_sums.push(categorical_table[i].innerText.replace("$",""))
+        } else {
+            cats.push(categorical_table[i].innerText)
+        }
+    }
+
+
+    const dates = []
+    const sums = []
+    const expense_table = document.getElementById('expense_table').getElementsByTagName('div')
+    for(i=0; i<expense_table.length;i++){
+        if (i%2 == 1){
+            sums.push(expense_table[i].innerText.replace("$",""))
+        } else {
+            dates.push(expense_table[i].innerText)
+        }
+    }
+
+
+    const ctx = document.getElementById('myChart');
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: cats,
+        datasets: [{
+          label: 'Expense across categories',
+          data: cats_sums,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+    const ctxDaily = document.getElementById('myChartDaily');
+    new Chart(ctxDaily, {
+      type: 'bar',
+      data: {
+        labels: dates,
+        datasets: [{
+          label: 'Sums of daily expenses',
+          data: sums,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+</script>
+{% endblock content %}

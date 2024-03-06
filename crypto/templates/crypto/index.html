@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="text-center mt-20 mb-10">
+  <h1 class="text-2xl font-bold mb-4">My cryptos purchased</h1>
+</div>
+<div class='flex justify-center mb-10'>
+  <a href='{% url "add_crypto_purchased" %}' class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+    Add Crypto
+</a>
+</div>
+
+<div class="flex mb-5">
+<p class="mx-5 font-bold" id="total_investment">Total Investment : </p>
+<p class="ml-20 font-bold" id="total_profit">Total Profit : </p>
+</div>
+<div class="flex justify-center mx-5">
+    <div class="overflow-auto h-96">
+    <table id="cryptoTable" class="table-fixed w-full table-sort">
+      <thead class="bg-gray-200 sticky top-0">
+        <tr>
+          <th class="bg-gray-200 p-2">
+            <div class='flex'><p class='mr-1'>ID / Name<p>
+            <svg viewBox="0 0 24 24" width='25px' fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16 18L16 6M16 6L20 10.125M16 6L12 10.125" stroke="#121212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M8 6L8 18M8 18L12 13.875M8 18L4 13.875" stroke="#121212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+            </div>
+          </th>
+          <th class="bg-gray-200 p-2">
+            <div class='flex'><p class='mr-1'>Quantity<p>
+              <svg viewBox="0 0 24 24" width='25px' fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16 18L16 6M16 6L20 10.125M16 6L12 10.125" stroke="#121212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M8 6L8 18M8 18L12 13.875M8 18L4 13.875" stroke="#121212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+              </div>
+          </th>
+          <th class="bg-gray-200 p-2">
+            <div class='flex items-center'><p class='mr-1'>Amount purchased<p>
+              <svg viewBox="0 0 24 24" width='25px' fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16 18L16 6M16 6L20 10.125M16 6L12 10.125" stroke="#121212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M8 6L8 18M8 18L12 13.875M8 18L4 13.875" stroke="#121212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+              </div>
+          </th>
+          <th class="bg-gray-200 p-2">
+            <div class='flex items-center'><p class='mr-1'>Amount Invested<p>
+              <svg viewBox="0 0 24 24" width='25px' fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16 18L16 6M16 6L20 10.125M16 6L12 10.125" stroke="#121212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M8 6L8 18M8 18L12 13.875M8 18L4 13.875" stroke="#121212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+              </div>
+          </th>
+          <th class="bg-gray-200 p-2">
+            <div class='flex items-center'><p class='mr-1'>Date purchased<p>
+              <svg viewBox="0 0 24 24" width='25px' fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16 18L16 6M16 6L20 10.125M16 6L12 10.125" stroke="#121212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M8 6L8 18M8 18L12 13.875M8 18L4 13.875" stroke="#121212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+              </div>
+          </th>
+          <th class="bg-gray-200 p-2">
+            <div class='flex items-center'><p class='mr-1'>Current price<p>
+              <svg viewBox="0 0 24 24" width='25px' fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16 18L16 6M16 6L20 10.125M16 6L12 10.125" stroke="#121212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M8 6L8 18M8 18L12 13.875M8 18L4 13.875" stroke="#121212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+              </div>
+          </th>
+          <th class="bg-gray-200 p-2">
+            <div class='flex items-center'><p class='mr-1'>Profit<p>
+              <svg viewBox="0 0 24 24" width='25px' fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16 18L16 6M16 6L20 10.125M16 6L12 10.125" stroke="#121212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M8 6L8 18M8 18L12 13.875M8 18L4 13.875" stroke="#121212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+              </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for crypto in my_cryptos %}
+        <tr class="text-center">
+          <div class="crypto-infos">
+            <td class="p-2">{{ crypto.asset_id}} / {{ crypto.name}}</td>
+            <td class="p-2 quantity_purchased">{{ crypto.quantity_purchased}}</td>
+            <td class="p-2 amount_purchased" id="amount_purchased{{ crypto.id }}">{{ crypto.amount_purchased | floatformat:"2"}}</td>
+            <td class="p-2 amount_invested">{{ crypto.amount_invested}}</td>
+            <td class="p-2">{{ crypto.date_purchased}}</td>
+            <td class="p-2 crypto_current_price" data-asset-id="{{ crypto.asset_id }}" ></td>
+            <td class="p-2 crypto_profit" id="{{ crypto.id }}"></td>
+          </div>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<script>
+
+  document.addEventListener("DOMContentLoaded", function() {
+
+      if(localStorage.getItem('bag_crypto') == null) {
+        add_bag_crypto_localStorage()
+      }
+      
+      // browse the localstorage
+      my_bag = JSON.parse(localStorage.getItem('bag_crypto'))
+      for(index=0; index < my_bag.length; index++){
+        asset_id = my_bag[index].asset_id
+        price_usd = my_bag[index].price_usd
+
+        // add to the table html
+        var elements = document.querySelectorAll("td[data-asset-id="+asset_id+"]");
+        elements.forEach(function(element) {
+          element.innerHTML = price_usd.toFixed(2);
+        });
+
+      }
+
+      //Profit calculation
+      var oTable = document.getElementById('cryptoTable');
+
+      // total_investment
+      var total_investment = 0
+      var total_profit = 0
+      var rowLength = oTable.rows.length;
+      for (i = 1; i < rowLength; i++){
+
+        var oCells = oTable.rows.item(i).cells;
+        var cellLength = oCells.length;
+        
+        var quantity = parseFloat(oCells.item(1).innerHTML);
+        var amount_invested = parseFloat(oCells.item(3).innerHTML);
+        var current_price = parseFloat(oCells.item(5).innerHTML);
+
+        var result = (quantity * current_price)-amount_invested;
+        total_investment += amount_invested
+        total_profit += result
+        oCells.item(6).innerHTML = (result.toFixed(2)).toString()
+        
+      }
+      let element_invest = document.getElementById('total_investment');
+      element_invest.innerHTML += (total_investment.toFixed(2)).toString()+"$"
+      let element_profit = document.getElementById('total_profit');
+      element_profit.innerHTML += (total_profit.toFixed(2)).toString()+"$"
+
+
+  });
+
+
+
+
+  function add_bag_crypto_localStorage() {
+    
+    // result example : ['SOL', 'BTC, 'ETH']
+    var allCryptoCurrentPrice = document.querySelectorAll('.crypto_current_price');
+    var array_asset_id = []
+    allCryptoCurrentPrice.forEach(function(cryptoCurrentPrice) {
+
+      var assetId = cryptoCurrentPrice.getAttribute('data-asset-id');
+      if (!array_asset_id.includes(assetId)) {
+        array_asset_id.push(assetId)
+      }
+
+    })
+
+    // API PROCESS
+    let config = {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(array_asset_id)
+    };
+    
+    fetch('api/get_api_data/', config)
+      .then(response => response.json())
+      .then(data => {
+          localStorage.setItem('bag_crypto', JSON.stringify(data))
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+  }
+
+</script>
+
+{% endblock content %}
+
